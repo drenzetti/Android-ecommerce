@@ -6,6 +6,12 @@
     android:layout_height="match_parent"
     tools:context="com.example.archimede.ecommerce2.MainActivity">
 
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/objs_recycler_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+    </android.support.v7.widget.RecyclerView>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
