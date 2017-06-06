@@ -3,6 +3,7 @@ package com.example.archimede.ecommerce2.data;
 import android.content.Context;
 import android.media.Image;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,9 +23,12 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     private List<Category> mDataset;
     private Context context;
 
+    private OnAdapterItemClickListener listener;
+
     public CategoryAdapter(List<Category> mDataset, Context context) {
         this.mDataset = mDataset;
         this.context = context;
+        this.listener = (OnAdapterItemClickListener) context;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -52,6 +56,17 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         vh.description = (TextView) v.findViewById(R.id.description);
         vh.imageView = (ImageView) v.findViewById(R.id.imageView);
 
+        v.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("OnClickListener",v.getTag().toString());
+
+                if(listener!=null){
+                    listener.OnItemClick((int)v.getTag());
+                }
+            }
+        });
+
         return vh;
     }
 
@@ -61,6 +76,8 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         holder.title.setText(mDataset.get(position).getTitle());
         holder.description.setText(mDataset.get(position).getDescription());
 //        holder.imageView.setText(mDataset.get(position).getImage());
+
+        holder.itemView.setTag(position);
 
     }
 
