@@ -1,5 +1,6 @@
 package com.example.archimede.ecommerce2;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
@@ -25,6 +26,7 @@ public class MainActivity extends AppCompatActivity implements OnAdapterItemClic
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         rView = (RecyclerView)findViewById(R.id.objs_recycler_view);
+
         GridLayoutManager layout = new GridLayoutManager(this, 2);
 
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
@@ -42,5 +44,18 @@ public class MainActivity extends AppCompatActivity implements OnAdapterItemClic
     @Override
     public void OnItemClick(int position) {
         Log.d("Posizione item: ", String.valueOf(position));
+        Intent productIntent = new Intent(this, ProductListActivity.class);
+        startActivity(productIntent);
+
+    }
+
+    @Override
+    public void OnItemBuyClick(int position) {
+
+    }
+
+    @Override
+    public void OnItemBookmarkClick(int position) {
+
     }
 }

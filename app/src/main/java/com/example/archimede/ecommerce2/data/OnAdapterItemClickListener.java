@@ -7,4 +7,6 @@ package com.example.archimede.ecommerce2.data;
 public interface OnAdapterItemClickListener {
 
     void OnItemClick(int position);
+    void OnItemBuyClick(int position);
+    void OnItemBookmarkClick(int position);
 }

@@ -21,18 +21,18 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
     private List<Product> mDataset;
     private Context context;
     private OnAdapterItemClickListener listener;
-    private NumberFormat nf = NumberFormat.getInstance(Locale.ITALIAN);
+    private NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.ITALY);
 
-    public ProductAdapter(List<Product> mDataset, Context context, OnAdapterItemClickListener listener) {
+    public ProductAdapter(List<Product> mDataset, Context context) {
         this.mDataset = mDataset;
         this.context = context;
-        this.listener = listener;
+        this.listener = (OnAdapterItemClickListener) context;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.category_row_adapter, parent, false);
+                .inflate(R.layout.products_layout, parent, false);
         ViewHolder vh = new ViewHolder(v);
 
         vh.name = (TextView) v.findViewById(R.id.textViewName);
@@ -45,10 +45,35 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         v.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(listener!=null){
+                    listener.OnItemClick((int)v.getTag());
+                }
+            }
+        });
+
+        vh.favorite.setOnClickListener(new View.OnClickListener(){
+
+
+            @Override
+            public void onClick(View v) {
+                if(listener!=null){
+                    listener.OnItemBookmarkClick((int)v.getTag());
+                }
+            }
+        });
+
+        vh.buyButton.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                if(listener!=null){
+                    listener.OnItemBuyClick((int)v.getTag());
+                }
             }
         });
 
         return vh;
+
     }
 
     @Override
@@ -57,6 +82,9 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         holder.desc.setText(mDataset.get(position).getDesc());
         holder.price.setText(nf.format(mDataset.get(position).getPrice()));
         holder.productImage.setTag(position);
+        holder.itemView.setTag(position);
+        holder.favorite.setTag(position);
+        holder.buyButton.setTag(position);
     }
 
     @Override
