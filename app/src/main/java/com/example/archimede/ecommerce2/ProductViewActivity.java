@@ -11,7 +11,9 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.example.archimede.ecommerce2.data.Product;
 import com.example.archimede.ecommerce2.data.ProductAdapter;
+import com.squareup.picasso.Picasso;
 
 public class ProductViewActivity extends AppCompatActivity {
 
@@ -39,8 +41,8 @@ public class ProductViewActivity extends AppCompatActivity {
         image = (ImageView)findViewById(R.id.imageViewItemProduct);
         price = (TextView)findViewById(R.id.textViewItemPrice);
 
+        Product product = new Product("Titolo","Descrizione",30.50, "http://writingexercises.co.uk/images2/randomimage/boat.jpg");
 
-
-
+        Picasso.with(this).load(product.getImage()).into(image);
     }
 }

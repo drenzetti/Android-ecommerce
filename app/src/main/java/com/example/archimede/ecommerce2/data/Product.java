@@ -1,5 +1,9 @@
 package com.example.archimede.ecommerce2.data;
 
+import android.widget.ImageView;
+
+import com.squareup.picasso.Picasso;
+
 /**
  * Created by archimede on 14/06/17.
  */
@@ -9,13 +13,22 @@ public class Product {
     private String desc;
     private double price;
     private boolean bookmark;
+    private String image;
 
+    public String getImage() {
+        return image;
+    }
 
-    public Product(String name, String desc, double price) {
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public Product(String name, String desc, double price, String image) {
         this.name = name;
         this.desc = desc;
         this.price = price;
         this.bookmark = false;
+        this.image = image;
     }
 
     @Override

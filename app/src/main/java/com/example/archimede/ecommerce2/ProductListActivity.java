@@ -37,7 +37,7 @@ public class ProductListActivity extends AppCompatActivity implements OnAdapterI
 
         productList = new ArrayList<>();
         for (int i = 0; i < 21; i++) {
-            productList.add(new Product("Titolo", "Descrizione poco poco corta", 3.10));
+            productList.add(new Product("Titolo", "Descrizione poco poco corta", 3.10, "http://writingexercises.co.uk/images2/randomimage/boat.jpg"));
         }
 
         ProductAdapter productAdapter = new ProductAdapter(productList, this);
