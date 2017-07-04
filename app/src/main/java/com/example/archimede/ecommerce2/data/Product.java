@@ -1,14 +1,28 @@
 package com.example.archimede.ecommerce2.data;
 
-import android.widget.ImageView;
-
-import com.squareup.picasso.Picasso;
-
 /**
  * Created by archimede on 14/06/17.
  */
 
 public class Product {
+    public Product(int id) {
+        this.id = id;
+    }
+
+    private int id;
+
+    public Product() {
+
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     private String name;
     private String desc;
     private double price;

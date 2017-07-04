@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.archimede.ecommerce2.data.CategoryAdapter;
+import com.example.archimede.ecommerce2.data.EcommerceOpenHelper;
 import com.example.archimede.ecommerce2.data.OnAdapterItemClickListener;
 import com.example.archimede.ecommerce2.data.Product;
 import com.example.archimede.ecommerce2.data.ProductAdapter;
@@ -24,22 +25,21 @@ public class ProductListActivity extends AppCompatActivity implements OnAdapterI
 
     private RecyclerView rView;
     private List<Product> productList;
+    private EcommerceOpenHelper mDB;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_list);
-
+        mDB = new EcommerceOpenHelper(this);
 
         rView = (RecyclerView)findViewById(R.id.products_recycler_view);
 
         GridLayoutManager layout = new GridLayoutManager(this, 1);
         rView.setLayoutManager(layout);
 
-        productList = new ArrayList<>();
-        for (int i = 0; i < 21; i++) {
-            productList.add(new Product("Titolo", "Descrizione poco poco corta", 3.10, "http://writingexercises.co.uk/images2/randomimage/boat.jpg"));
-        }
+        int categoryID = getIntent().getIntExtra("categoryID", -1);
 
+        productList = mDB.getAllProducts(categoryID);
         ProductAdapter productAdapter = new ProductAdapter(productList, this);
         rView.setAdapter(productAdapter);
 

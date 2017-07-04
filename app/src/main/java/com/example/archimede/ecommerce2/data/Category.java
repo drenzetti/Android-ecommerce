@@ -5,6 +5,19 @@ package com.example.archimede.ecommerce2.data;
  */
 
 public class Category {
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Category() {
+
+    }
+
+    private int id;
     private String title;
     private String image;
     private String description;
