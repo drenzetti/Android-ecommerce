@@ -2,6 +2,7 @@ package com.example.archimede.ecommerce2;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,9 +19,16 @@ import com.example.archimede.ecommerce2.data.CategoryAdapter;
 import com.example.archimede.ecommerce2.data.EcommerceOpenHelper;
 import com.example.archimede.ecommerce2.data.OnAdapterItemClickListener;
 import com.example.archimede.ecommerce2.data.Product;
+import com.example.archimede.ecommerce2.network.EcommerceService;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity implements OnAdapterItemClickListener, SharedPreferences.OnSharedPreferenceChangeListener{
 
@@ -28,7 +36,11 @@ public class MainActivity extends AppCompatActivity implements OnAdapterItemClic
 
     private SharedPreferences preferences;
 
-    private List<Category> categoryList;
+    private List<Category> categoryList = new ArrayList<>();
+
+    private List<Product> productList = new ArrayList<>();
+
+    private CategoryTask mTask = null;
     private EcommerceOpenHelper mDB;
 
     @Override
@@ -56,11 +68,16 @@ public class MainActivity extends AppCompatActivity implements OnAdapterItemClic
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
         rView.setLayoutManager(mLayoutManager);
 
-         categoryList = mDB.getAllCategories();
+        final List<Category> categoryList = new ArrayList<>();
+
+        // categoryList = mDB.getAllCategories();
 
 
-        CategoryAdapter categoryAdapter = new CategoryAdapter(categoryList, this);
-        rView.setAdapter(categoryAdapter);
+  //      CategoryAdapter categoryAdapter = new CategoryAdapter(categoryList, this);
+  //      rView.setAdapter(categoryAdapter);
+
+        mTask = new CategoryTask();
+        mTask.execute((Void)null);
     }
 
     @Override
@@ -120,5 +137,40 @@ public class MainActivity extends AppCompatActivity implements OnAdapterItemClic
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("firstUser",!b);
         editor.apply();
+    }
+
+    public class CategoryTask extends AsyncTask<Void, Void, List<Category>>{
+
+        @Override
+        protected List<Category> doInBackground(Void... params) {
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl("http://wandering-lake-3706.getsandbox.com/")
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+
+            EcommerceService service = retrofit.create(EcommerceService.class);
+            Call<List<Category>> listCall = service.listCategory();
+
+            try {
+                Response<List<Category>> listResponse = listCall.execute();
+                if(listResponse.isSuccessful()){
+                    return listResponse.body();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(List<Category> categories) {
+
+            if (categories==null) return;
+
+            categoryList = categories;
+
+            CategoryAdapter categoryAdapter = new CategoryAdapter(categoryList, MainActivity.this);
+            rView.setAdapter(categoryAdapter);
+        }
     }
 }

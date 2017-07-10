@@ -3,6 +3,7 @@ package com.example.archimede.ecommerce2.data;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
@@ -191,6 +192,14 @@ public class EcommerceOpenHelper extends SQLiteOpenHelper {
             if (cursor != null)
                 cursor.close();
             return productList;
+        }
+    }
+
+    public void insertProduct(Product product){
+        if (DatabaseUtils.queryNumEntries(mReadableDB, PRODUCTS_LIST_TABLE, "id = " + product.getId()) = 1) {
+            mWritableDB.update(PRODUCTS_LIST_TABLE, this. )
+        } else {
+            mWritableDB.insert()
         }
     }
 }
